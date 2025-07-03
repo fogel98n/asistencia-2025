@@ -1,0 +1,60 @@
+.menu-hamburgesa {
+    width: 40px;
+    height: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    z-index: 1001;
+    position: relative;
+}
+
+.menu-hamburgesa__line {
+    width: 100%;
+    height: 4px;
+    background-color: #333;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.pantalla-emergente {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    display: none;
+    flex-direction: column;
+    padding: 20px;
+    transition: left 0.3s ease;
+    z-index: 1000;
+    color: #fff;
+}
+
+.pantalla-emergente--visible {
+    display: flex;
+    left: 0;
+}
+
+.pantalla-boton {
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #333;
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    background-color:  #537D5D;
+    color: #fff;
+}
+
+.pantalla-boton:hover {
+    background-color: #333;
+}
+.btn_registro{
+    
+}

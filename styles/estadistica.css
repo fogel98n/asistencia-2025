@@ -1,0 +1,97 @@
+.contenedor-estadistica {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding-top: 60px;
+}
+
+.grafica-contenedor {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    width: 100%;
+    height: 300px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    padding: 10px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
+.grafica-contenedor::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to right, #e0e0e0 1px, transparent 1px),
+                      linear-gradient(to top, #e0e0e0 1px, transparent 1px);
+    background-size: 20px 20px; 
+    z-index: 0;
+}
+
+.grafica-barra {
+    width: 60px;
+    background-color: #537D5D;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    transition: background-color 0.3s, transform 0.3s;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+}
+
+.grafica-barra:hover {
+    background-color: #6a9b76;
+    transform: scale(1.1);
+}
+
+.grafica-etiqueta {
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
+.barra-contenedor {
+    width: 100%;
+    background-color: #e0e0e0;
+    height: 18px;
+    border-radius: 5px;
+    margin-top: 6px;
+    overflow: hidden;
+}
+
+.barra-asistencia-simple {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 0.4s ease-in-out;
+    width: 0; /* por defecto sin ancho */
+}
+
+.barra-asistencia-simple.sin-datos {
+    width: 2px !important;
+    height: 2px !important;
+    background-color: #f44336 !important; /* rojo */
+}
+
+.barra-asistencia-simple.baja-asistencia {
+    background-color: #f44336; /* rojo */
+}
+
+.barra-asistencia-simple.media-asistencia {
+    background-color: #ffeb3b; /* amarillo */
+}
+
+
+.barra-asistencia-simple.alta-asistencia {
+    background-color: #4caf50; /* verde */
+}

@@ -1,0 +1,284 @@
+.alumno-item {
+    width: 348px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    margin: 5px;
+    background-color: #D9D9D9;
+    color: #231F20;
+}
+
+.botones-contenedor {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-asistencia {
+    width: 30px;
+    height: 30px;
+    background-color: #ccc; /* gris inicial */
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 6px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.btn-asistencia:hover {
+    background-color: #bbb; /* gris más oscuro al hover */
+}
+
+/* Estado PRESENTE */
+.btn-asistencia.presente {
+    background-color: #537D5D; /* verde */
+}
+
+/* Estado AUSENTE */
+.btn-asistencia.ausente {
+    background-color: #D9534F; /* rojo */
+}
+
+.btn-asistencia.sin-borde {
+    background-color: #fff;
+}
+
+.btn-uniforme {
+    width: 30px;
+    height: 30px;
+    background-color: #9EBC8A;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
+}
+
+.btn-msj {
+    width: 30px;
+    height: 30px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 6px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
+}
+
+.btn-msj-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.btn-alumno {
+    width: 200px;
+    height: 50px;
+    background-color: #537D5D;
+    color: #D9D9D9;
+    border: none;
+    border-radius: 10px;
+    margin-left: auto;
+    display: block;
+}
+
+.alumnos-listado {
+    margin-top: 70px;
+}
+
+/* Botones masivos */
+.botones-masivos {
+    display: flex;
+    gap: 12px;
+    margin-right: 20px;
+    justify-content: flex-end;
+}
+
+.btn-masivo {
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #1976d2;
+    color: white;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    transition: background-color 0.25s ease, box-shadow 0.25s ease;
+    user-select: none;
+}
+
+.btn-masivo:hover,
+.btn-masivo:focus {
+    background-color: #155a9c;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    outline: none;
+}
+
+.btn-masivo:active {
+    background-color: #0f3d66;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transform: scale(0.95);
+}
+
+.btn-asistencia-todos {
+    background-color: #4caf50;
+}
+
+.btn-asistencia-todos:hover {
+    background-color: red;
+}
+
+.btn-correo-masivo {
+    background-color: #fff;
+}
+
+.btn-correo-masivo:hover {
+    background-color: blue;
+}
+
+.btn-eliminar {
+    margin-left: 10px;
+    background-color: #e53935;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+    padding: 0;
+    transition: background-color 0.3s ease;
+}
+
+.btn-eliminar:hover {
+    background-color: #b71c1c;
+}
+/* Fondo semitransparente para el panel */
+.panel-emergente {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    max-width: 400px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Inputs */
+  .input-texto {
+    width: 100%;
+    padding: 0.7rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+  
+  /* Botones */
+  .cerrar-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    margin-top: 1rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cerrar-btn:hover {
+    background-color: #388e3c;
+  }
+  
+  /* Botones secundarios (como cerrar) */
+  .panel-emergente .cerrar-btn:last-child {
+    background-color: #f44336;
+  }
+  
+  .panel-emergente .cerrar-btn:last-child:hover {
+    background-color: #d32f2f;
+  }
+  
+  /* Contenedor de imágenes del uniforme */
+  .contenedor-imagenes {
+    display: flex;
+    justify-content: space-around;
+    margin: 1rem 0;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  /* Imagenes clicables */
+  .imagen-uniforme {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    transition: transform 0.2s;
+  }
+  
+  .imagen-uniforme:hover {
+    transform: scale(1.1);
+  }
+  
+  /* Fondo oscurecido (si quieres agregar) */
+  body::before {
+    content: "";
+    display: none; /* Puedes cambiar a block cuando muestres el panel */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 999;
+  }
+  .contenedor-botonescompletados {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.btn-asistencia {
+    background-color: #4CAF50;
+    border: none;
+    padding: 8px 14px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn-msj {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 8px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-msj-icon {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}

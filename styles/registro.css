@@ -1,0 +1,49 @@
+.registro {
+    max-width: 400px;
+    margin: 90px auto;
+    padding: 20px;
+    border-radius: 10px;
+    
+    
+    font-family: Arial, sans-serif;
+}
+
+.registro h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #9EBC8A;
+}
+
+
+
+.form-control {
+    margin-bottom: 15px;
+    padding: 12px 14px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border 0.3s ease;
+  }
+  
+  .form-control:focus {
+    border-color: #9EBC8A;
+    outline: none;
+  }
+  .btn-submit {
+    background-color:#9EBC8A;
+    color: white;
+    padding: 12px 16px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-submit:hover {
+    background-color: #9EBC8A;
+  }
+    

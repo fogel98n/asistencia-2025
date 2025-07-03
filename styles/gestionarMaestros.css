@@ -1,0 +1,68 @@
+.contenedor-maestros {
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: auto;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      max-height: 600px;
+      overflow-y: scroll;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    
+    .contenedor-maestros::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .lista-maestros {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .maestro-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: linear-gradient(to right, #f4f6f9, #ffffff);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .maestro-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .maestro-nombre {
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    
+    .maestro-grado {
+      font-size: 0.95rem;
+      color: #7f8c8d;
+      margin-top: 4px;
+    }
+    
+    .btn-eliminar {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .btn-eliminar:hover {
+      background: #c0392b;
+    }
+    
+    
