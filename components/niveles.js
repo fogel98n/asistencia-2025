@@ -3,11 +3,11 @@ import { BASE_URL } from "../config.js";
 import { header } from "./header.js";
 
 export async function gradospanel(usuario, modoEstadistica = false) {
-  const esCoordinador = usuario.rol === "coordinador";
   const contenedor = document.createElement("div");
   contenedor.className = "grados-contenedor";
 
-  if (!esCoordinador) {
+  // Si no es ni coordinador ni admin, no tiene permisos
+  if (usuario.rol !== "coordinador" && usuario.rol !== "admin") {
     const mensaje = document.createElement("p");
     mensaje.style.fontWeight = "bold";
     mensaje.style.textAlign = "center";
@@ -17,6 +17,21 @@ export async function gradospanel(usuario, modoEstadistica = false) {
   }
 
   try {
+    // Si es administrador, mostrar todos los grados directamente
+    if (usuario.rol === "admin") {
+      const root = document.getElementById("root");
+      root.innerHTML = "";
+      const headerElement = header(usuario);
+
+      // Pasamos null o 0 como id_nivel si queremos todos los grados
+      const gradosContainer = await mostrarGrados(null, usuario, modoEstadistica);
+
+      root.appendChild(headerElement);
+      root.appendChild(gradosContainer);
+      return contenedor; // aunque ya manipulamos el DOM directamente
+    }
+
+    // Si es coordinador, mostrar por niveles
     const res = await fetch(`${BASE_URL}/niveles_educativos`);
     if (!res.ok) throw new Error("Error al cargar niveles educativos");
 
@@ -33,9 +48,8 @@ export async function gradospanel(usuario, modoEstadistica = false) {
           root.innerHTML = "";
 
           const headerElement = header(usuario);
-          // Pasamos modoEstadistica al llamar mostrarGrados
           const gradosContainer = await mostrarGrados(nivel.id_nivel, usuario, modoEstadistica);
-          
+
           root.appendChild(headerElement);
           root.appendChild(gradosContainer);
         });
