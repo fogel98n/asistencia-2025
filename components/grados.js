@@ -5,8 +5,9 @@ export async function mostrarGrados(id, usuario, modoEstadistica = false) {
   const contenedorGrados = document.createElement("div");
   contenedorGrados.className = "grados-listado";
 
+  // Para maestro: pedimos grados por nivel, no por id de grado
   if (usuario.rol === "maestro" && !id) {
-    id = usuario.id_grado;
+    id = usuario.id_nivel;  // aquí el cambio importante
   }
 
   if (!id) {
@@ -17,15 +18,15 @@ export async function mostrarGrados(id, usuario, modoEstadistica = false) {
   try {
     let grados = [];
 
-    if (usuario.rol === "coordinador") {
+    if (usuario.rol === "coordinador" || usuario.rol === "maestro") {
+      // Tanto coordinador como maestro piden grados por nivel
       const res = await fetch(`${BASE_URL}/grados/nivel/${id}`);
       if (!res.ok) throw new Error("Error al cargar grados por nivel");
       grados = await res.json();
-    } else if (usuario.rol === "maestro") {
-      const res = await fetch(`${BASE_URL}/grados/id/${id}`);
-      if (!res.ok) throw new Error("Error al cargar grado por ID");
-      const grado = await res.json();
-      grados = grado ? [grado] : [];
+    } else {
+      // Otros roles podrían pedir diferente o nada
+      contenedorGrados.textContent = "No tiene permisos para ver los grados.";
+      return contenedorGrados;
     }
 
     const resMaestros = await fetch(`${BASE_URL}/maestros`);

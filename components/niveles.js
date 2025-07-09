@@ -1,13 +1,13 @@
-import { mostrarGrados } from "./grados.js";
-import { BASE_URL } from "../config.js";
+// niveles.js
+import { mostrarGrados } from "../components/grados.js";
 import { header } from "./header.js";
+import { BASE_URL } from "../config.js";
 
 export async function gradospanel(usuario, modoEstadistica = false) {
   const contenedor = document.createElement("div");
   contenedor.className = "grados-contenedor";
 
-  // Si no es ni coordinador ni admin, no tiene permisos
-  if (usuario.rol !== "coordinador" && usuario.rol !== "admin") {
+  if (!["coordinador", "admin", "maestro"].includes(usuario.rol)) {
     const mensaje = document.createElement("p");
     mensaje.style.fontWeight = "bold";
     mensaje.style.textAlign = "center";
@@ -17,56 +17,61 @@ export async function gradospanel(usuario, modoEstadistica = false) {
   }
 
   try {
-    // Si es administrador, mostrar todos los grados directamente
+    const headerElement = header(usuario);
+    contenedor.appendChild(headerElement);
+
     if (usuario.rol === "admin") {
-      const root = document.getElementById("root");
-      root.innerHTML = "";
-      const headerElement = header(usuario);
-
-      // Pasamos null o 0 como id_nivel si queremos todos los grados
       const gradosContainer = await mostrarGrados(null, usuario, modoEstadistica);
-
-      root.appendChild(headerElement);
-      root.appendChild(gradosContainer);
-      return contenedor; // aunque ya manipulamos el DOM directamente
+      contenedor.appendChild(gradosContainer);
+      return contenedor;
     }
 
-    // Si es coordinador, mostrar por niveles
-    const res = await fetch(`${BASE_URL}/niveles_educativos`);
-    if (!res.ok) throw new Error("Error al cargar niveles educativos");
+    if (usuario.rol === "maestro") {
+      if (!usuario.id_nivel) {
+        const mensaje = document.createElement("p");
+        mensaje.textContent = "No tiene un nivel educativo asignado.";
+        contenedor.appendChild(mensaje);
+        return contenedor;
+      }
+      const gradosContainer = await mostrarGrados(usuario.id_nivel, usuario, modoEstadistica);
+      contenedor.appendChild(gradosContainer);
+      return contenedor;
+    }
 
-    const niveles = await res.json();
+    if (usuario.rol === "coordinador") {
+      const res = await fetch(`${BASE_URL}/niveles_educativos`);
+      if (!res.ok) throw new Error("Error al cargar niveles educativos");
 
-    if (niveles.length) {
-      niveles.forEach(nivel => {
-        const nivelDiv = document.createElement("div");
-        nivelDiv.className = "nivel-item";
-        nivelDiv.textContent = nivel.nombre_nivel || "Nombre no definido";
+      const niveles = await res.json();
 
-        nivelDiv.addEventListener("click", async () => {
-          const root = document.getElementById("root");
-          root.innerHTML = "";
+      if (niveles.length) {
+        niveles.forEach(nivel => {
+          const nivelDiv = document.createElement("div");
+          nivelDiv.className = "nivel-item";
+          nivelDiv.textContent = nivel.nombre_nivel || "Nombre no definido";
 
-          const headerElement = header(usuario);
-          const gradosContainer = await mostrarGrados(nivel.id_nivel, usuario, modoEstadistica);
+          nivelDiv.addEventListener("click", async () => {
+            contenedor.innerHTML = "";
+            contenedor.appendChild(headerElement);
+            const gradosContainer = await mostrarGrados(nivel.id_nivel, usuario, modoEstadistica);
+            contenedor.appendChild(gradosContainer);
+          });
 
-          root.appendChild(headerElement);
-          root.appendChild(gradosContainer);
+          contenedor.appendChild(nivelDiv);
         });
-
-        contenedor.appendChild(nivelDiv);
-      });
-    } else {
-      const mensaje = document.createElement("p");
-      mensaje.textContent = "No hay niveles educativos disponibles.";
-      contenedor.appendChild(mensaje);
+      } else {
+        const mensaje = document.createElement("p");
+        mensaje.textContent = "No hay niveles educativos disponibles.";
+        contenedor.appendChild(mensaje);
+      }
+      return contenedor;
     }
+
   } catch (error) {
     const mensajeError = document.createElement("p");
     mensajeError.style.color = "red";
     mensajeError.textContent = `Error cargando niveles educativos: ${error.message}`;
     contenedor.appendChild(mensajeError);
+    return contenedor;
   }
-
-  return contenedor;
 }

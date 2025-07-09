@@ -49,7 +49,8 @@ export async function mostrarAlumnos(idGrado, usuario, claseExtra = "", mostrarB
                 div.appendChild(nombreSpan);
 
                 if (mostrarBotones) {
-                    div.appendChild(btn(alumno.id_alumno));
+                    // Aquí paso el id y el nombre a btn
+                    div.appendChild(btn(alumno.id_alumno, alumno.nombre));
                 } else {
                     const estadisticas = asistenciasMap.get(alumno.id_alumno) || [];
                     const total = estadisticas.length;
@@ -101,7 +102,8 @@ export async function mostrarAlumnos(idGrado, usuario, claseExtra = "", mostrarB
     return contenedorAlumnos;
 }
 
-export function btn(idAlumno) {
+// Cambié para que reciba también el nombre
+export function btn(idAlumno, alumnoNombre) {
     const contenedorBotones = document.createElement("div");
     contenedorBotones.className = "botones-contenedor";
 
@@ -141,7 +143,8 @@ export function btn(idAlumno) {
 
     const btnUniforme = document.createElement("button");
     btnUniforme.className = "btn-uniforme";
-    btnUniforme.addEventListener("click", () => mostrarPanelUniforme(idAlumno));
+    // Aquí paso el nombre en vez del id
+    btnUniforme.addEventListener("click", () => mostrarPanelUniforme(alumnoNombre));
 
     const btnMsj = document.createElement("button");
     btnMsj.className = "btn-msj";
@@ -253,7 +256,7 @@ function mostrarPanelAgregarAlumno(idGrado, idNivel) {
     document.body.appendChild(panelEmergente);
 }
 
-function mostrarPanelUniforme(idAlumno) {
+function mostrarPanelUniforme(nombreAlumno) {
     const panelEmergente = document.createElement("div");
     panelEmergente.className = "panel-emergente";
 
@@ -264,6 +267,11 @@ function mostrarPanelUniforme(idAlumno) {
     inputTexto.type = "text";
     inputTexto.placeholder = "Describe qué parte del uniforme falta...";
     inputTexto.className = "input-texto";
+
+    const inputCorreo = document.createElement("input");
+    inputCorreo.type = "email";
+    inputCorreo.placeholder = "Correo del destinatario ";
+    inputCorreo.className = "input-texto";
 
     const contenedorImagenes = document.createElement("div");
     contenedorImagenes.className = "contenedor-imagenes";
@@ -292,42 +300,19 @@ function mostrarPanelUniforme(idAlumno) {
     enviarBtn.textContent = "Enviar";
     enviarBtn.className = "cerrar-btn";
 
-    enviarBtn.addEventListener("click", async () => {
+    enviarBtn.addEventListener("click", () => {
         const descripcion = inputTexto.value.trim();
+        const correoDestino = inputCorreo.value.trim();
 
-        if (!descripcion) {
-            alert("Por favor, escribe una descripción del problema con el uniforme.");
+        if (!descripcion || !correoDestino) {
+            alert("Completa la descripción y el correo destinatario.");
             return;
         }
 
-        const fecha = new Date().toISOString().slice(0, 10);
-        const datos = {
-            id_alumno: idAlumno,
-            fecha: fecha,
-            descripcion: descripcion
-        };
-
-        try {
-            const res = await fetch(`${BASE_URL}/reporte-uniforme`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(datos)
-            });
-
-            if (!res.ok) {
-                const errorData = await res.json();
-                alert("Error al guardar reporte: " + (errorData.error || res.statusText));
-                return;
-            }
-
-            alert("Reporte de uniforme guardado exitosamente.");
-            panelEmergente.remove();
-        } catch (error) {
-            alert("Error de conexión al guardar el reporte.");
-            console.error("Error:", error);
-        }
+        const subject = encodeURIComponent("Reporte de uniforme");
+        const body = encodeURIComponent(`Alumno: ${nombreAlumno}\nDescripción: ${descripcion}`);
+        const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${correoDestino}&su=${subject}&body=${body}`;
+        window.open(url, "_blank");
     });
 
     const cerrarBtn = document.createElement("button");
@@ -337,6 +322,7 @@ function mostrarPanelUniforme(idAlumno) {
 
     panelEmergente.appendChild(mensaje);
     panelEmergente.appendChild(inputTexto);
+    panelEmergente.appendChild(inputCorreo);
     panelEmergente.appendChild(contenedorImagenes);
     panelEmergente.appendChild(enviarBtn);
     panelEmergente.appendChild(cerrarBtn);

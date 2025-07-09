@@ -1,22 +1,14 @@
-import { grafica } from "./grafica_barra.js";
+// estadistica.js
 import { gradospanel } from "./niveles.js";
 
 export async function estadística(usuario = {}) {
-    const contenedor = document.createElement("div");
-    contenedor.className = "contenedor-estadistica";
+  const contenedor = document.createElement("div");
+  contenedor.className = "contenedor-estadistica";
 
-    const datos = [
-        { nombre: "Enero", valor: 120 },
-        { nombre: "Febrero", valor: 80 },
-        { nombre: "Marzo", valor: 150 },
-        { nombre: "Abril", valor: 100 }
-    ];
-    
-    const graficaElemento = grafica(datos);
-    const panelgrado = await gradospanel(usuario, true); 
+  // Solo mostramos el panel de grados sin gráfica
+  const panelgrado = await gradospanel(usuario, true);
 
-    contenedor.appendChild(graficaElemento);
-    contenedor.appendChild(panelgrado);
+  contenedor.appendChild(panelgrado);
 
-    return contenedor;
+  return contenedor;
 }
