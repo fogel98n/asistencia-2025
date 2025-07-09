@@ -46,9 +46,9 @@ export function menu_hamburgesa(usuario) {
   boton_gestorMaestros.textContent = "Gestionar Maestros";
 
   pantallaEmergente.appendChild(botonInicio);
+  pantallaEmergente.appendChild(botonEstadistica);
 
   if (usuario.rol === "coordinador") {
-    pantallaEmergente.appendChild(botonEstadistica);
     pantallaEmergente.appendChild(boton_gestorMaestros);
     pantallaEmergente.appendChild(boton_registro);
   }
@@ -72,8 +72,13 @@ export function menu_hamburgesa(usuario) {
     root.appendChild(header(usuario));
 
     if (usuario.rol === "maestro") {
-      // Pasamos modoEstadistica = false (default)
-      const grados = await mostrarGrados(usuario.id_grado, usuario, false);
+      if (!usuario.id_nivel) {
+        const mensaje = document.createElement("p");
+        mensaje.textContent = "No tiene un nivel educativo asignado.";
+        root.appendChild(mensaje);
+        return;
+      }
+      const grados = await mostrarGrados(usuario.id_nivel, usuario, false);
       root.appendChild(grados);
     } else if (usuario.rol === "coordinador") {
       const niveles = await gradospanel(usuario, false);
@@ -89,8 +94,6 @@ export function menu_hamburgesa(usuario) {
     pantallaEmergente.classList.remove('pantalla-emergente--visible');
     const root = document.getElementById("root");
     root.innerHTML = "";
-
-    root.appendChild(header(usuario));
 
     const panel = await estadística(usuario);
     root.appendChild(panel);
@@ -127,7 +130,7 @@ export function menu_hamburgesa(usuario) {
     root.innerHTML = "";
 
     const vistaGestion = await gestionarAlumnos(usuario);
-    root.appendChild(header(usuario))
+    root.appendChild(header(usuario));
     root.appendChild(vistaGestion);
   });
 
